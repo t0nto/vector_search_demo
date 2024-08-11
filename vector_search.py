@@ -2,10 +2,11 @@ import streamlit as st
 from openai import OpenAI
 from pymongo.mongo_client import MongoClient
 import time
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# import os
+# from dotenv import load_dotenv
+
+# load_dotenv()
 
 
 # Define GLOBAL VARS
@@ -28,23 +29,23 @@ CHAT_MAX_OUTPUT_TOKENS = 500
 
 # DB and API connections
 # Connect to OpenAI
-# openapi_client = OpenAI(api_key=st.secrets.openai.api_key)
-openapi_client = OpenAI(api_key=os.getenv("OPEN_AI_API_KEY"))
+openapi_client = OpenAI(api_key=st.secrets.openai.api_key)
+# openapi_client = OpenAI(api_key=os.getenv("OPEN_AI_API_KEY"))
 
 
 # Connect to MongoDB and cache the connection
 @st.cache_resource
 def init_connection():
-    # return MongoClient(st.secrets.mongodb.uri)
-    return MongoClient(os.getenv("MONGODB_URI"))
+    return MongoClient(st.secrets.mongodb.uri)
+    # return MongoClient(os.getenv("MONGODB_URI"))
 
 
 client = init_connection()
 # Connect to DB and collection
-# db = client[st.secrets.mongodb.db_name]
-db = client[os.getenv("MONGODB_DB_NAME")]
-# mongo_collection = db.get_collection(st.secrets.mongodb.collection_name)
-mongo_collection = db.get_collection(os.getenv("MONGODB_COLLECTION_NAME"))
+db = client[st.secrets.mongodb.db_name]
+# db = client[os.getenv("MONGODB_DB_NAME")]
+mongo_collection = db.get_collection(st.secrets.mongodb.collection_name)
+# mongo_collection = db.get_collection(os.getenv("MONGODB_COLLECTION_NAME"))
 
 
 @st.cache_data(ttl="1d", show_spinner=False)
@@ -123,9 +124,7 @@ def hybrid_search(query: str, query_embedding: list[float]) -> list[dict]:
                 },
                 {
                     "$unionWith": {
-                        "coll": os.getenv(
-                            "MONGODB_COLLECTION_NAME"
-                        ),  # st.secrets.mongodb.collection_name,
+                        "coll": st.secrets.mongodb.collection_name,  # os.getenv("MONGODB_COLLECTION_NAME"),
                         "pipeline": [
                             {"$search": {"phrase": {"query": query, "path": "text"}}},
                             {"$limit": 20},
