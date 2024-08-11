@@ -1,0 +1,9 @@
+numpy==2.0.1
+openai==1.40.3
+pandas==2.2.2
+plotly==5.23.0
+polars==1.2.1
+pymongo==4.8.0
+pymongoarrow==1.5.0
+streamlit==1.37.1
+tiktoken==0.7.0

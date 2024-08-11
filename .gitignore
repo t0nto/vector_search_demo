@@ -1,0 +1,5 @@
+.streamlit/secrets.toml
+offcuts.py
+env.yaml
+__pycache__/
+*.py[cod]
