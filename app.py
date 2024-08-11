@@ -1,4 +1,6 @@
 import streamlit as st
+
+st.set_page_config(page_title="[Vector::Wise]", page_icon="🧠")
 import vector_search
 import time
 import plotly.express as px
@@ -7,7 +9,6 @@ import openai
 import json
 
 # from dotenv import load_dotenv
-
 # load_dotenv()
 
 
@@ -19,7 +20,7 @@ if "tool_call" not in st.session_state:
     st.session_state.tool_call = ""
 
 
-st.title("Vector::Wise")
+st.title("[Vector::Wise]")
 st.divider()
 
 
@@ -113,7 +114,9 @@ def doc_retrieval_pipeline() -> None:
 
         status.update(label="Done!", state="complete", expanded=False)
         time.sleep(1)
-        st.session_state.messages.append({"role": "ai", "content": f"{results} "})
+        # st.session_state.messages.append({"role": "ai", "content": f"{results} "})
+        for result in results:
+            st.session_state.messages.append({"role": "ai", "content": result})
 
 
 def doc_retrieval_hybrid_pipeline() -> None:
@@ -131,7 +134,8 @@ def doc_retrieval_hybrid_pipeline() -> None:
 
         status.update(label="Done!", state="complete", expanded=False)
         time.sleep(1)
-        st.session_state.messages.append({"role": "ai", "content": f"{results} "})
+        for result in results:
+            st.session_state.messages.append({"role": "ai", "content": result})
 
 
 col1, col2 = st.columns(2)
