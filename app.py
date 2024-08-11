@@ -5,6 +5,7 @@ import plotly.express as px
 import pandas as pd
 import openai
 import json
+import os
 
 # Initialize chat history
 if "messages" not in st.session_state:
