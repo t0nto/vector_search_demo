@@ -5,6 +5,9 @@ import plotly.express as px
 import pandas as pd
 import openai
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Initialize chat history
